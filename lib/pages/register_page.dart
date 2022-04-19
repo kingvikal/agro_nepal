@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
               "FullName",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "FullName can\'t be empty.";
+                  return "FullName can't be empty.";
                 }
                 return null;
               },
@@ -122,32 +122,32 @@ class _RegisterPageState extends State<RegisterPage> {
               borderRadius: 5,
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 10),
-          //   child: FormHelper.inputFieldWidget(
-          //     context,
-          //     "city",
-          //     "City",
-          //     (onValidateVal) {
-          //       if (onValidateVal.isEmpty) {
-          //         return "City can\'t be empty.";
-          //       }
-          //       return null;
-          //     },
-          //     (onSavedVal) {
-          //       city = onSavedVal;
-          //     },
-          //     showPrefixIcon: true,
-          //     prefixIcon: const Icon(Icons.location_city),
-          //     prefixIconPaddingLeft: 5,
-          //     borderFocusColor: Colors.white,
-          //     prefixIconColor: Colors.white,
-          //     borderColor: Colors.white,
-          //     textColor: Colors.white,
-          //     hintColor: Colors.white.withOpacity(0.7),
-          //     borderRadius: 5,
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: FormHelper.inputFieldWidget(
+              context,
+              "city",
+              "City",
+              (onValidateVal) {
+                if (onValidateVal.isEmpty) {
+                  return "City can't be empty.";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                city = onSavedVal;
+              },
+              showPrefixIcon: true,
+              prefixIcon: const Icon(Icons.location_city),
+              prefixIconPaddingLeft: 5,
+              borderFocusColor: Colors.white,
+              prefixIconColor: Colors.white,
+              borderColor: Colors.white,
+              textColor: Colors.white,
+              hintColor: Colors.white.withOpacity(0.7),
+              borderRadius: 5,
+            ),
+          ),
           // Padding(
           //   padding: const EdgeInsets.only(top: 10),
           //   child: FormHelper.inputFieldWidget(
@@ -261,13 +261,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   email: email!,
                   password: password!,
                   fullName: fullName!,
-                  // city: city!,
+                  city: city!,
                   // gender: gender!,
                 );
 
                 try {
                   await APIService.register(model);
-                  print('rino');
                   FormHelper.showSimpleAlertDialog(
                     context,
                     Config.appName,
@@ -279,14 +278,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   );
                 } on HttpException catch (e) {
-                  print('catch 1');
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, e.toString(), "OK", () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/register', (route) => false);
                   });
                 } on SocketException catch (_) {
-                  print('catch 2');
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "No Internet Connection", "OK",
                       () {
@@ -294,7 +291,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         context, '/register', (route) => false);
                   });
                 } catch (e) {
-                  print('catch 3');
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "Something went Wrong", "OK",
                       () {

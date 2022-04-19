@@ -180,10 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: const TextStyle(
                             color: Colors.white,
                             decoration: TextDecoration.underline),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            print("Forget Password");
-                          })
+                        recognizer: TapGestureRecognizer()..onTap = () {})
                   ],
                 ),
               ),
@@ -206,14 +203,8 @@ class _LoginPageState extends State<LoginPage> {
 
                 try {
                   await APIService.login(model).then((_) => {
-                        FormHelper.showSimpleAlertDialog(
-                            context,
-                            Config.appName,
-                            "Login Successful. \n Welcome! $email",
-                            "OK", () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/home', (route) => false);
-                        }),
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/home', (route) => false),
                       });
                 } on FormatException catch (_) {
                   FormHelper.showSimpleAlertDialog(
@@ -228,7 +219,6 @@ class _LoginPageState extends State<LoginPage> {
                         context, '/login', (route) => false);
                   });
                 } on SocketException catch (_) {
-                  print('socket');
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "No Internet Connection", "OK",
                       () {
@@ -236,7 +226,6 @@ class _LoginPageState extends State<LoginPage> {
                         context, '/login', (route) => false);
                   });
                 } catch (e) {
-                  print('error');
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "Something Went Wrong", "OK",
                       () {

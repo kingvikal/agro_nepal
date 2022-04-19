@@ -1,16 +1,14 @@
 import 'dart:convert';
 
 import 'package:final_year_project/config.dart';
-import 'package:final_year_project/models/category_response_model.dart';
 import 'package:final_year_project/models/http_exception.dart';
 import 'package:final_year_project/models/login_request_model.dart';
 import 'package:final_year_project/models/login_response_model.dart';
 import 'package:final_year_project/models/register_request_model.dart';
-import 'package:final_year_project/models/register_response_model.dart';
 import 'package:final_year_project/services/shared_service.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
   static var client = http.Client();
@@ -18,7 +16,6 @@ class APIService {
     Map<String, String> responseHeaders = {'Content-Type': 'application/json'};
 
     try {
-      print('try');
       var url = Uri.http(Config.apiURL, Config.loginAPI);
 
       var response = await client.post(url,
@@ -26,15 +23,16 @@ class APIService {
 
       if (response.statusCode == 200) {
         await SharedService.setLoginDetails(loginResponseJson(response.body));
-        print('rino');
+        int userId = jsonDecode(response.body)['id'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('userId', userId);
+        SharedService.loggedInId = prefs.getInt('userId') as int;
         return true;
       } else {
-        print('here');
         var jsonData = jsonDecode(response.body);
         throw HttpException(jsonData);
       }
     } catch (e) {
-      print(e.toString());
       rethrow;
     }
   }
@@ -58,35 +56,53 @@ class APIService {
   static Future<String> getUserProfile() async {
     var loginDetails = await SharedService.loginDetails();
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('userId') as int;
+
     Map<String, String> responseHeaders = {
       'Content-Type': 'application/json; charset=utf-8',
       'Authorization': 'Bearer ${loginDetails?.token}'
     };
-    var url = Uri.http(Config.apiURL, Config.userProfileAPI);
+    var url = Uri.http(Config.apiURL, 'user/$userId');
     var response = await client.get(url, headers: responseHeaders);
 
     if (response.statusCode == 200) {
+      var responseData = jsonDecode(response.body);
+      print('rino0');
+      print(responseData);
+      SharedService.name = responseData['fullName'];
+      print(SharedService.name);
+
+      SharedService.city = responseData['city'];
+      SharedService.email = responseData['email'];
+      print('rino');
+      SharedService.dateTime = responseData['createdAt'];
+      print('rino');
+
+      print('rino1');
+      print(SharedService.email);
+      print('rino1');
+
       return response.body;
     } else {
       return "";
     }
   }
 
-  static Future<void> getCategories() async {
-    var client = http.Client();
-    Map<String, String> responseHeaders = {'Content-Type': 'application/json'};
-    try {
-      print('rino');
-      var url = Uri.http(Config.apiURL, Config.categoryAPI);
-      var responseData = await client.get(
-        url,
-        headers: responseHeaders,
-      );
-      print(responseData.body);
-    } catch (e) {
-      print('e');
-    }
-  }
+  // static Future<void> getCategories() async {
+  //   var client = http.Client();
+  //   Map<String, String> responseHeaders = {'Content-Type': 'application/json'};
+  //   try {
+  //     var url = Uri.http(Config.apiURL, Config.categoryAPI);
+  //     var responseData = await client.get(
+  //       url,
+  //       headers: responseHeaders,
+  //     );
+  //     print(responseData.body);
+  //   } catch (e) {
+  //     print('e');
+  //   }
+  // }
 
   // static Future<List<CategoryResponseModel>?> category(
   //     CategoryResponseModel model) async {

@@ -24,7 +24,6 @@ class Category extends StatelessWidget {
                   icon: category[index]["icon"],
                   text: category[index]["text"],
                   press: () {
-                    print("pressed");
                   }))
         ],
       ),

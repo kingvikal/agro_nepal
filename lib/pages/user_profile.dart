@@ -1,6 +1,10 @@
+import 'package:final_year_project/pages/customer_support.dart';
 import 'package:final_year_project/services/shared_service.dart';
 import 'package:final_year_project/widgets/profile_data.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:final_year_project/pages/profile_page1.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -12,12 +16,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
             child: ListView(
+              controller: ScrollController(),
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -32,39 +38,36 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Hi, I\'m ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                              Text(
-                                'Bikal',
-                                style: TextStyle(
-                                  color: Color(0xff68A037),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ],
+                          const Text(
+                            'Welcome ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                          Text(
+                            SharedService.name.toUpperCase(),
+                            style: const TextStyle(
+                              color: Color(0xff68A037),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: 'Montserrat',
+                            ),
                           ),
                           const SizedBox(
                             height: 5,
                           ),
-                          const Text("Joined in August 2021"),
+                          Text(
+                            "Joined in ${DateFormat('yyyy-MM-dd').format(SharedService.dateTime)}",
+                            // 'now'
+                          ),
                         ],
                       ),
                     ),
@@ -88,18 +91,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   color: const Color(0xffFFFFFF),
                   child: Column(
-                    children: const [
-                      ProfileData(
-                        string: "My Personal Information",
-                        showDivider: true,
-                        sizedBox: true,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, UserProfile.routeName);
+                        },
+                        child: const ProfileData(
+                          string: "My Personal Information",
+                          showDivider: true,
+                          sizedBox: true,
+                        ),
                       ),
-                      ProfileData(
+                      const ProfileData(
                         string: "My Payments",
                         showDivider: true,
                         sizedBox: true,
                       ),
-                      ProfileData(
+                      const ProfileData(
                         string: "My Orders",
                         showDivider: true,
                         sizedBox: true,
@@ -155,18 +163,32 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   color: const Color(0xffFFFFFF),
                   child: Column(
-                    children: const [
-                      ProfileData(
+                    children: [
+                      const ProfileData(
                         string: "Terms & Conditions",
                         showDivider: true,
                         sizedBox: true,
                       ),
-                      ProfileData(
-                        string: "Customer Support",
-                        showDivider: true,
-                        sizedBox: true,
+                      InkWell(
+                        // onTap: () async {
+                        //   print('rino');
+                        //   await launch("tel://9808880359");
+                        // },
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CustomerSupportPage(),
+                            ),
+                          );
+                        },
+                        child: const ProfileData(
+                          string: "Customer Support",
+                          showDivider: true,
+                          sizedBox: true,
+                        ),
                       ),
-                      ProfileData(
+                      const ProfileData(
                         string: "About AgroNep",
                         showDivider: false,
                         sizedBox: false,
@@ -177,22 +199,27 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 30,
                 ),
-                
                 Row(
-                
                   children: [
-                     
                     IconButton(
-                              onPressed: () {
-                                SharedService.logout(context);
-                              },
-                              icon: const Icon(Icons.logout),),
-                              TextButton( onPressed: (){
-                       SharedService.logout(context);
-                     }, child: const Text("Sign Out", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),)),
-                         
+                      onPressed: () {
+                        SharedService.logout(context);
+                      },
+                      icon: const Icon(Icons.logout),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          SharedService.logout(context);
+                        },
+                        child: const Text(
+                          "Sign Out",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red),
+                        )),
                   ],
-                ), 
+                ),
               ],
             ),
           ),

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:final_year_project/config.dart';
 import 'package:final_year_project/models/product_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsProvider with ChangeNotifier {
@@ -20,7 +19,6 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> getAllProducts() async {
-    print(_products);
     var client = http.Client();
     Map<String, String> responseHeaders = {'Content-Type': 'application/json'};
     try {
@@ -29,7 +27,6 @@ class ProductsProvider with ChangeNotifier {
         url,
         headers: responseHeaders,
       );
-      print(responseData.statusCode);
       List<ProductModel> _loadedProducts = [];
       List jsonData = jsonDecode(responseData.body);
 
@@ -43,7 +40,7 @@ class ProductsProvider with ChangeNotifier {
             imageUrl: product['image']));
       }
       _products = _loadedProducts;
-      
+
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -51,7 +48,6 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> getShuffledProducts() async {
-    print(_products);
     var client = http.Client();
     Map<String, String> responseHeaders = {'Content-Type': 'application/json'};
     try {
@@ -60,7 +56,6 @@ class ProductsProvider with ChangeNotifier {
         url,
         headers: responseHeaders,
       );
-      print(responseData.statusCode);
       List<ProductModel> _loadedProducts = [];
       List jsonData = jsonDecode(responseData.body);
 
@@ -73,7 +68,7 @@ class ProductsProvider with ChangeNotifier {
             price: product['price'],
             imageUrl: product['image']));
       }
-      
+
       _shuffledProducts = _loadedProducts;
       _shuffledProducts.shuffle();
       notifyListeners();
