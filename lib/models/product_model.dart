@@ -1,9 +1,11 @@
 
-class ProductModel {
+import 'package:flutter/cupertino.dart';
+
+class ProductModel with ChangeNotifier {
   final int id;
   final String title;
   final String description;
-  // final String category;
+  final int category;
   final int price;
   final String imageUrl;
 
@@ -11,7 +13,7 @@ class ProductModel {
     required this.id,
     required this.title,
     required this.description,
-// required this.category,
+required this.category,
     required this.price,
     required this.imageUrl,
   });

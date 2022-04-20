@@ -68,20 +68,11 @@ class APIService {
 
     if (response.statusCode == 200) {
       var responseData = jsonDecode(response.body);
-      print('rino0');
-      print(responseData);
       SharedService.name = responseData['fullName'];
-      print(SharedService.name);
 
       SharedService.city = responseData['city'];
       SharedService.email = responseData['email'];
-      print('rino');
       SharedService.dateTime = responseData['createdAt'];
-      print('rino');
-
-      print('rino1');
-      print(SharedService.email);
-      print('rino1');
 
       return response.body;
     } else {

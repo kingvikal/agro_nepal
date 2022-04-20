@@ -12,10 +12,28 @@ class ProductsProvider with ChangeNotifier {
     return [..._products];
   }
 
+  ProductModel getById(int id) {
+    return _products.firstWhere((product) => product.id == id);
+  }
+
+  List<ProductModel> getSearchProductByName(String productName) {
+    return _products
+        .where(
+          (product) =>
+              product.title.toLowerCase() == productName.toLowerCase() ||
+              product.title.contains(productName.substring(1, 3)),
+        )
+        .toList();
+  }
+
   List<ProductModel> _shuffledProducts = [];
 
   List<ProductModel> get shuffledProducts {
     return [..._shuffledProducts];
+  }
+
+  List<ProductModel> getProductsByCategory(int categoryId) {
+    return products.where((product) => product.category == categoryId).toList();
   }
 
   Future<void> getAllProducts() async {
@@ -29,15 +47,19 @@ class ProductsProvider with ChangeNotifier {
       );
       List<ProductModel> _loadedProducts = [];
       List jsonData = jsonDecode(responseData.body);
+      print(jsonData);
 
       for (var product in jsonData) {
-        _loadedProducts.add(ProductModel(
+        _loadedProducts.add(
+          ProductModel(
             id: product['id'],
             title: product['title'],
             description: product['description'],
-            // category: product['category'],
+            category: product['category'],
             price: product['price'],
-            imageUrl: product['image']));
+            imageUrl: product['image'],
+          ),
+        );
       }
       _products = _loadedProducts;
 
@@ -64,7 +86,7 @@ class ProductsProvider with ChangeNotifier {
             id: product['id'],
             title: product['title'],
             description: product['description'],
-            // category: product['category'],
+            category: product['category'],
             price: product['price'],
             imageUrl: product['image']));
       }

@@ -23,8 +23,7 @@ class Category extends StatelessWidget {
               (index) => CategoryCard(
                   icon: category[index]["icon"],
                   text: category[index]["text"],
-                  press: () {
-                  }))
+                  press: () {}))
         ],
       ),
     );

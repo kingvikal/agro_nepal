@@ -6,7 +6,7 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
-  static const routeName = '/userProfile';
+  static const routeName = '/userProfilePage';
 
   @override
   State<UserProfile> createState() => UserProfileState();
@@ -78,6 +78,7 @@ class UserProfileState extends State<UserProfile> {
           ),
         ),
         body: SingleChildScrollView(
+          controller: ScrollController(),
           child: Form(
             key: _globalKey,
             child: Padding(

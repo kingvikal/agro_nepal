@@ -6,6 +6,7 @@ import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class SharedService {
+  static bool isAppStarted = false;
   static int loggedInId = 0;
   static String name = '';
   static String city = '';

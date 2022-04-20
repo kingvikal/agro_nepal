@@ -1,3 +1,4 @@
+import 'package:final_year_project/pages/category_products_overview_page.dart';
 import 'package:final_year_project/providers/category_provider.dart';
 import 'package:final_year_project/widgets/assets.dart';
 import 'package:flutter/material.dart';
@@ -49,34 +50,46 @@ class _CategoryPageState extends State<CategoryPage> {
                       scrollDirection: Axis.vertical,
                       itemCount: categoryData.categories.length,
                       itemBuilder: (context, i) {
-                        return Container(
-                          margin: const EdgeInsets.all(
-                            5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Assets.primaryColor,
-                            borderRadius: BorderRadius.circular(
-                              15,
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              CategoryProductsPage.routeName,
+                              arguments: {
+                                'id': categoryData.categories[i].id,
+                                'name': categoryData.categories[i].category,
+                              },
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(
+                              5,
                             ),
-                          ),
-                          height: 110,
-                          width: double.infinity,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Image(
-                                  image: AssetImage(widget.categoryImages[i]),
-                                ),
+                            decoration: BoxDecoration(
+                              color: Assets.primaryColor,
+                              borderRadius: BorderRadius.circular(
+                                15,
                               ),
-                              Expanded(
-                                child: Text(
-                                  categoryData.categories[i].category,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                            ),
+                            height: 110,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Image(
+                                    image: AssetImage(widget.categoryImages[i]),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Text(
+                                    categoryData.categories[i].category,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },

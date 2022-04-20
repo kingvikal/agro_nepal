@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
-    Key? key, required this.text,required this.press,
+    Key? key,
+    required this.text,
+    required this.press,
   }) : super(key: key);
   final String text;
   final GestureTapCallback press;
@@ -17,10 +19,23 @@ class SectionTitle extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          GestureDetector(
-            child: const Text("see more", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), ),
+          InkWell(
+            onTap: () {
+              press();
+            },
+            child: const Text(
+              "See More",
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
           )
         ],
       ),
