@@ -209,30 +209,29 @@ class _LoginPageState extends State<LoginPage> {
                 } on FormatException catch (_) {
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "Password Not Match", "OK", () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false);
+                    Navigator.of(context).pop();
                   });
                 } on HttpException catch (e) {
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, e.toString(), "OK", () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false);
+                    Navigator.of(context).pop();
                   });
                 } on SocketException catch (_) {
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "No Internet Connection", "OK",
                       () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false);
+                    Navigator.of(context).pop();
                   });
                 } catch (e) {
                   FormHelper.showSimpleAlertDialog(
                       context, Config.appName, "Something Went Wrong", "OK",
                       () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false);
+                    Navigator.of(context).pop();
                   });
                 }
+                setState(() {
+                  isAPIcallProcess = false;
+                });
               }
             },
                 btnColor: const Color(0XFF32A368),

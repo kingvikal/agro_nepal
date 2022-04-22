@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 
 class SharedService {
   static bool isAppStarted = false;
+  static int userId = 0;
   static int loggedInId = 0;
   static String name = '';
   static String city = '';

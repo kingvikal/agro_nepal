@@ -1,19 +1,31 @@
 import 'package:final_year_project/providers/cart_provider.dart';
+import 'package:final_year_project/providers/order_provider.dart';
 import 'package:final_year_project/widgets/assets.dart';
 import 'package:final_year_project/widgets/cart_item.dart' as ci;
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
 
   static const routeName = '/cartPage';
 
   @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  // @override
+  // void initState() {
+
+  //   super.initState();
+  // }
+
+  @override
   Widget build(BuildContext context) {
     final cartData = Provider.of<CartItems>(context, listen: true);
-    // final orderData = Provider.of<Orders>(context, listen: false);
+    final orderData = Provider.of<OrderProvider>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
@@ -126,8 +138,112 @@ class _TheOrderButtonState extends State<TheOrderButton> {
     return TextButton(
       onPressed: widget.cartData.itemCount <= 0
           ? null
-          : () {
-              print('Order Now');
+          : () async {
+              setState(() {
+                isLoading = true;
+              });
+              await Provider.of<OrderProvider>(context, listen: false)
+                  .addOrder(
+                widget.cartData.totalPrice.toInt(),
+                PaymentStatus.unpaid,
+                widget.cartData.itemCount,
+              )
+                  .then((_) {
+                widget.cartData.clearCart();
+                showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return Dialog(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              size: 80,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              'Your Order has been placed.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              'Check your orders for more details.',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text(
+                                      'Pay Later',
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.purple.withOpacity(0.6),
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                    child: const Text(
+                                      'Pay Now',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).catchError((_) {
+                setState(() {
+                  isLoading = false;
+                });
+                showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return AlertDialog(
+                      title: const Text('An error occurred!'),
+                      content: const Text(
+                        'Please check your Internet Connection.',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Okay'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              });
+              setState(() {
+                isLoading = false;
+              });
             },
       child: isLoading
           ? const SizedBox(

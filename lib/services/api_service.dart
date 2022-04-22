@@ -24,6 +24,7 @@ class APIService {
       if (response.statusCode == 200) {
         await SharedService.setLoginDetails(loginResponseJson(response.body));
         int userId = jsonDecode(response.body)['id'];
+        SharedService.userId = userId;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setInt('userId', userId);
         SharedService.loggedInId = prefs.getInt('userId') as int;

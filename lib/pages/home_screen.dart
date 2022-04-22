@@ -79,6 +79,7 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         controller: _scrollController1,
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             const SearchField(),

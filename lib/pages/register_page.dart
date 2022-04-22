@@ -351,7 +351,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, "/");
+                            Navigator.pushNamed(context, "/login");
                           })
                   ],
                 ),

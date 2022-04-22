@@ -47,7 +47,6 @@ class ProductsProvider with ChangeNotifier {
       );
       List<ProductModel> _loadedProducts = [];
       List jsonData = jsonDecode(responseData.body);
-      print(jsonData);
 
       for (var product in jsonData) {
         _loadedProducts.add(

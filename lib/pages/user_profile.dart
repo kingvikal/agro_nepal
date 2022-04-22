@@ -1,4 +1,5 @@
 import 'package:final_year_project/pages/customer_support.dart';
+import 'package:final_year_project/pages/order_page.dart';
 import 'package:final_year_project/services/shared_service.dart';
 import 'package:final_year_project/widgets/profile_data.dart';
 import 'package:flutter/material.dart';
@@ -107,10 +108,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         showDivider: true,
                         sizedBox: true,
                       ),
-                      const ProfileData(
-                        string: "My Orders",
-                        showDivider: true,
-                        sizedBox: true,
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, OrderPage.routeName);
+                        },
+                        child: const ProfileData(
+                          string: "My Orders",
+                          showDivider: true,
+                          sizedBox: true,
+                        ),
                       ),
                     ],
                   ),

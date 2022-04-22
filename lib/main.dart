@@ -2,6 +2,7 @@ import 'package:final_year_project/pages/cart_page.dart';
 import 'package:final_year_project/pages/category_products_overview_page.dart';
 import 'package:final_year_project/pages/home_page.dart';
 import 'package:final_year_project/pages/login_page.dart';
+import 'package:final_year_project/pages/order_page.dart';
 import 'package:final_year_project/pages/product_detail_page.dart';
 import 'package:final_year_project/pages/products_overview_page.dart';
 import 'package:final_year_project/pages/profile_page1.dart';
@@ -9,6 +10,7 @@ import 'package:final_year_project/pages/register_page.dart';
 import 'package:final_year_project/pages/search_page.dart';
 import 'package:final_year_project/providers/cart_provider.dart';
 import 'package:final_year_project/providers/category_provider.dart';
+import 'package:final_year_project/providers/order_provider.dart';
 import 'package:final_year_project/providers/products_provider.dart';
 import 'package:final_year_project/services/shared_service.dart';
 import 'package:final_year_project/widgets/assets.dart';
@@ -43,6 +45,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => CartItems(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => OrderProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -64,6 +69,7 @@ class MyApp extends StatelessWidget {
               const CategoryProductsPage(),
           ProductDetailPage.routeName: (context) => const ProductDetailPage(),
           SearchPage.routeName: (context) => const SearchPage(),
+          OrderPage.routeName: (context) => const OrderPage(),
         },
       ),
     );
