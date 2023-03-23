@@ -1,6 +1,19 @@
 # final_year_project
 
-A new Flutter project.
+As part of my academic coursework, I developed an eCommerce application using Flutter, a mobile application development framework. The application is designed to provide an intuitive and responsive user interface for customers to browse and purchase agricultural products from an online store.
+
+Features of the application include:
+
+    1. Authentication
+    2. Product catalog browsing
+    3. Product search functionality
+    4. Shopping cart management
+    5. Payment gateway integration (Khalti)
+    6. Order history
+
+In building this project, I gained hands-on experience in working with Flutter widgets and state management, as well as integrating external APIs and libraries for authentication and payment processing. I also collaborated with a colleague to implement agile development methodologies, version control using Git.
+
+This project showcases my proficiency in mobile application development using Flutter and my ability to work in a team to deliver high-quality software solutions.
 
 ## Getting Started
 
